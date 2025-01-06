@@ -51,7 +51,7 @@
   become: true
   environment:
     GITLAB_RUNNER_DISABLE_SKEL: "true"
-  when: ansible_distribution_release in ["buster", "focal", "jammy"]
+  when: ansible_facts.distribution_release in ["buster", "focal", "jammy"]
 
 - name: (Debian) Install GitLab Runner
   ansible.builtin.apt:
@@ -60,7 +60,7 @@
     allow_change_held_packages: true
     allow_downgrade: true
   become: true
-  when: ansible_distribution_release not in ["buster", "focal", "jammy"]
+  when: ansible_facts.distribution_release not in ["buster", "focal", "jammy"]
 
 - name: (Debian) Hold GitLab Runner version
   ansible.builtin.dpkg_selections:
@@ -73,7 +73,7 @@
   ansible.builtin.file:
     path: /home/gitlab-runner/.bash_logout
     state: absent
-  when: ansible_distribution_release in ["buster", "focal", "jammy"]
+  when: ansible_facts.distribution_release in ["buster", "focal", "jammy"]
 
 - name: Set systemd reload options
   ansible.builtin.import_tasks: systemd-reload.yml
